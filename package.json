@@ -1,0 +1,11 @@
+{
+  "name": "khp",
+  "description": "Ksana Humanity Platform",
+  "version": "0.1",
+  "main": "index.html",
+  "window": {
+    "toolbar": true,
+    "width": 1300,
+    "height": 600
+  }
+}

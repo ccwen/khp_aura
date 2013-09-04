@@ -1,4 +1,4 @@
 khp
 ===
 
-Ksana Humanity Platform
+Ksana Humanity Platform, a visual external markup tool

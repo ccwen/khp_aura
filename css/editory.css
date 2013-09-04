@@ -1,0 +1,20 @@
+ .inserttext:before {
+  	#box-shadow: 0 0 1px 1px #70ff70;
+  	#color:green;content:attr(qq);text-decoration:none;
+  	background-image : url(greencircle.svg) ;
+  	background-repeat: no-repeat;  	
+  }
+  .deletetext { 
+  	background-image : url(redcross.svg) ;
+  	#background-position : 50% 50%;
+  	background-repeat: no-repeat;
+  }
+  .emphasis { 
+  	background-image : url(curly_underline.svg) ;
+  	background-position : 0% 150%;
+  	background-repeat: repeat-x;
+  }
+  .doubt { 
+  	background-image : url(doubt.svg) ;
+  	background-repeat: no-repeat;
+  }

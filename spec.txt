@@ -1,0 +1,11 @@
+tag-style defination file
+
+{
+	name:"",
+	inslot:boolean,
+	css : {
+
+	}
+}
+
+document.styleSheets[1].addRule('div #three', 'font: 14px verdana');

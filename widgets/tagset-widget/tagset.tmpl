@@ -1,0 +1,5 @@
+<div id="tagset">
+	<%for (var i in tags){%>
+<label><input type="radio" name="tag" <%if (tags[i].default) {%>checked<%}%>></input><span style="<%=tags[i].style%>"><%=tags[i].name%></span></label>
+<%}%>
+</div>
