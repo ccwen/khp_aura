@@ -46,6 +46,7 @@ define(['underscore','backbone',
       var that=this;
       if ($tk.hasClass(tag)) {
         this.removetag(function() {
+          that.model.set("selected",$tk);
           $tk.removeClass();
           that.model.set("selected",null);
         });
@@ -85,7 +86,7 @@ define(['underscore','backbone',
       var attrs=this.tagdataattributes(selected,cls);
       if (attrs.length) {
         bootbox.confirm('Remove <span class="'+cls+'">'+cls+
-          "</span> with attribute:<b>"
+          "</span> in "+selected.html()+" with attribute:<b>"
           +selected.attr(attrs[0])+"</b>?",function(res){
           if (res) {
             callback();
@@ -102,7 +103,7 @@ define(['underscore','backbone',
       var taginfo=this.model.get('taginfo');
 
       if (taginfo&&taginfo.data) {
-        bootbox.prompt('input '+taginfo.data,function(result){
+        bootbox.prompt('input '+taginfo.data+' for '+selected.html(),function(result){
           if (result) {
             selected.addClass(tag);
             selected.attr('data-'+tag+'-'+taginfo.data,result);
@@ -123,14 +124,22 @@ define(['underscore','backbone',
       this.model.set("tag",tag);
       this.model.set("taginfo",taginfo);
     },
+    getAEM:function() {
+
+    },
+    setAEM:function() {
+
+    },
     initialize: function() {
       this.readonly=false;
       this.slot2dom={}; //for speed up tokenfromvpos
       this.setheight();
       this.id=this.options.id;
       this.sandbox.on("parallel.setselectable",this.setselectable,this);
-      this.sandbox.on('markable.settext',this.settext,this)
-      this.sandbox.on('markable.settag',this.settag,this)
+      this.sandbox.on('markable.settext',this.settext,this);
+      this.sandbox.on('markable.settag',this.settag,this);
+      this.sandbox.on("AEM.get",this.getAEM,this);
+      this.sandbox.on("AEM.set",this.setAEM,this);
       this.model.on("change:tag",this.tagchanged,this);
       this.loadparallel();      
     }
