@@ -6,6 +6,7 @@ define(['underscore','backbone','aura'], function(_,Backbone,Aura) {
     .use('../node_webkit/auraext/aura-yadb')
     .use('../node_webkit/auraext/aura-yase')
     .use('../node_webkit/auraext/aura-module')
+    .use('../node_webkit/auraext/aura-refinery')
     .start({ widgets: 'body' }).then(function() {
     	console.log('Aura Started')
     })

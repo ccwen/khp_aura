@@ -60,11 +60,11 @@ define(['underscore','backbone','aem',
           if (result) {
             var extra={};
             extra[taginfo.data]=result;
-            that.aemCollection.add({id:tag+vpos,vpos:vpos, tagname:tag, extra: extra})
+            that.aemCollection.add({id:vpos+tag,vpos:vpos, tagname:tag, extra: extra})
           }
         });
       } else {
-        this.aemCollection.add({id:tag+vpos,vpos:vpos, tagname:tag })
+        this.aemCollection.add({id:vpos+tag,vpos:vpos, tagname:tag })
       }
     },
     clearaem:function() {
@@ -98,19 +98,26 @@ define(['underscore','backbone','aem',
       this.model.set("tag",tag);
       this.model.set("taginfo",taginfo);
     },
+    getmarkups:function(callback) {
+      callback(this.aemCollection.toJSON());
+    },
+    createcollection:function() {
+      this.aemCollection=new aem.AEMCollection();
+      this.aemCollection.on("remove",this.removeaem,this);
+      this.aemCollection.on("add",this.newaem,this);
+      this.aemCollection.on("reset",this.renderaem,this);
+    },
     initialize: function() {
       this.readonly=false;
       this.model=new Backbone.Model();
       this.slot2dom={}; //for speed up tokenfromvpos
       this.setheight();
+      this.createcollection();
       this.id=this.options.id;
-      this.aemCollection=new aem.AEMCollection();
-      this.aemCollection.on("remove",this.removeaem,this);
-      this.aemCollection.on("add",this.newaem,this);
-      this.aemCollection.on("reset",this.renderaem,this);
       this.sandbox.on("parallel.setselectable",this.setselectable,this);
       this.sandbox.on('markable.settext',this.settext,this);
       this.sandbox.on('markable.settag',this.settag,this);
+      this.sandbox.on('markable.getmarkups',this.getmarkups,this);
       this.model.on("change:tag",this.tagchanged,this);
     }
   };
