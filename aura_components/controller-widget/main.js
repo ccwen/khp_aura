@@ -3,9 +3,16 @@ define(['underscore','text!./controller.tmpl'], function(_,template) {
     type: 'Backbone',
     events: {
       "click #btnsettext":"settext",
-     
+      "click #btnsave":"savetag"
     },      
+    savetag:function() {
+      /*
+      just send the tags to server
 
+      server decide where to save
+      get the underlying filename plus author as zdb filename
+      */
+    },
     settext:function() {
       var that=this;
       var pb=$("#inputpb").val();
