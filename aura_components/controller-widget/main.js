@@ -18,6 +18,15 @@ define(['underscore','backbone','text!./controller.tmpl',
         });
       });
     },
+    loadtag:function() {
+      var that=this;
+      var start=this.model.get("start");
+      var obj={db:config.db,author:'yap',start:start};
+      that.sandbox.refinery.load(obj,function(err,data){
+          that.sandbox.emit("markable.setmarkups",data.markups);
+          that.$el.find("#message").html("loaded ");
+      });
+    },
     settext:function() {
       var that=this;
       var pb=$("#inputpb").val();

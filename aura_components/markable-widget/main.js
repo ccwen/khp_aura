@@ -101,6 +101,9 @@ define(['underscore','backbone','aem',
     getmarkups:function(callback) {
       callback(this.aemCollection.toJSON());
     },
+    setmarkups:function(markups) {
+      this.aemCollection.reset(markups);
+    },    
     createcollection:function() {
       this.aemCollection=new aem.AEMCollection();
       this.aemCollection.on("remove",this.removeaem,this);
@@ -118,6 +121,7 @@ define(['underscore','backbone','aem',
       this.sandbox.on('markable.settext',this.settext,this);
       this.sandbox.on('markable.settag',this.settag,this);
       this.sandbox.on('markable.getmarkups',this.getmarkups,this);
+      this.sandbox.on('markable.setmarkups',this.setmarkups,this);
       this.model.on("change:tag",this.tagchanged,this);
     }
   };
