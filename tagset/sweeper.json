@@ -1,6 +1,6 @@
 {
 	"tags":[
-		{"name":"doubt", "data":"notetext" ,
+		{"name":"doubt", "data":"text" ,
 		  "style":"background:pink", "afterstyle":"content: '*'"
 		  },
 		{"name":"typo", "intoken":true,"default":true, "style":"background:red;color:yellow"}

@@ -14,14 +14,17 @@ define(['underscore','backbone','text!./controller.tmpl',
       this.sandbox.emit("markable.getmarkups",function(data){
         var obj={db:config.db,author:'yap',start:start,markups:data};
         that.sandbox.refinery.save(obj,function(err,data){
-          that.$el.find("#message").html("saved "+JSON.stringify(data));
+          var $btn=that.$el.find("#btnsave");
+          var old=$btn.html();
+          $btn.html("Saved!");
+          setTimeout( function(){$btn.html(old)},2000);
         });
       });
     },
     loadtag:function() {
       var that=this;
       var start=this.model.get("start");
-      var obj={db:config.db,author:'yap',start:start};
+      var obj={db:config.db,author:'yap',selector:"pb[id="+start+"]"};
       that.sandbox.refinery.load(obj,function(err,data){
           that.sandbox.emit("markable.setmarkups",data.markups);
           that.$el.find("#message").html("loaded ");
@@ -35,6 +38,7 @@ define(['underscore','backbone','text!./controller.tmpl',
       this.sandbox.yase.getTextByTag(opts,function(err,data) {
         that.sandbox.emit('markable.settext',"markable1",data.text)  ;
         that.model.set("start",pb);
+        that.loadtag();
       })
       
     },

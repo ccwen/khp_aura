@@ -17,10 +17,34 @@ define(['underscore','backbone','aem',
         if (!$slot) $slot=this.slot2dom[slot]=this.$el.find('slot[n='+slot+']');
         return $slot.find('tk[n='+vpos %4096+']');
     },
+
+          
+
+    taghasattr:function($tk) {
+      return (m && m.get("extra"));
+    },
     clickdomnode: function(e) {
       if (this.readonly) return;
-      var $tk=this.$el.find(e.target), $slot=$tk.parent(); 
-      this.toggletag($tk);
+      var that=this;
+      var $tk=this.$el.find(e.target), $slot=$tk.parent();
+      var vpos=this.vposfromdomnode($tk[0]);
+      var m=this.aemCollection.findWhere({vpos:vpos});
+      var extra=m.get("extra");
+      var field=Object.keys(extra)[0];
+      if (m&&extra) {
+        bootbox.prompt({
+          title:'modify '+field+' for '+$tk.html()+' ,cancel to remove',value:extra[field],
+          callback:function(result){
+            if (result) {
+              extra[field]=result;
+              m.set("extra",extra);         
+            } else that.removeaem(m);
+          }
+        });
+      } else {
+        this.toggletag($tk);  
+      }
+      
     },    
     settext:function(id,text) {
       if (id!=this.id) return;
@@ -45,7 +69,7 @@ define(['underscore','backbone','aem',
     toggletag:function(selected) {
       var vpos=this.vposfromdomnode(selected[0]);
       var tag=this.model.get('tag');
-      var m=this.aemCollection.findWhere({tagname:tag,vpos:vpos});
+      var m=this.aemCollection.findWhere({tag:tag,vpos:vpos});
       if (m) this.removeaem(m);
       else this.addtag(selected);
     },
@@ -60,11 +84,11 @@ define(['underscore','backbone','aem',
           if (result) {
             var extra={};
             extra[taginfo.data]=result;
-            that.aemCollection.add({id:vpos+tag,vpos:vpos, tagname:tag, extra: extra})
+            that.aemCollection.add({id:vpos+tag,vpos:vpos, tag:tag, extra: extra})
           }
         });
       } else {
-        this.aemCollection.add({id:vpos+tag,vpos:vpos, tagname:tag })
+        this.aemCollection.add({id:vpos+tag,vpos:vpos, tag:tag })
       }
     },
     clearaem:function() {
@@ -87,8 +111,8 @@ define(['underscore','backbone','aem',
     newaem:function(m) {
       var node=this.domnodefromvpos(m.get("vpos"));
       if (!node) return;
-      var tag=m.get("tagname");
-      node.addClass(m.get("tagname"));  
+      var tag=m.get("tag");
+      node.addClass(m.get("tag"));
       var extra=m.get("extra");
       for (var i in extra) {
         node.attr('data-'+tag+'-'+i,extra[i]);
