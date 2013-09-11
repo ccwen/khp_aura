@@ -11,8 +11,8 @@ define(['underscore','backbone','text!./controller.tmpl',
     savetag:function() {
       var that=this;
       var start=this.model.get("start");
-      this.sandbox.emit("markable.getmarkups",function(data){
-        var obj={db:config.db,author:'yap',start:start,markups:data};
+      this.sandbox.emit("markable.getmarkups",function(newmarkups,removed){
+        var obj={db:config.db,author:'yap',start:start,markups:newmarkups,removed:removed};
         that.sandbox.refinery.save(obj,function(err,data){
           var $btn=that.$el.find("#btnsave");
           var old=$btn.html();
@@ -26,6 +26,9 @@ define(['underscore','backbone','text!./controller.tmpl',
       var start=this.model.get("start");
       var obj={db:config.db,author:'yap',selector:"pb[id="+start+"]"};
       that.sandbox.refinery.load(obj,function(err,data){
+          for (var i=0;i<data.markups.length;i++) {
+            data.markups[i].fromdisk=true;
+          }
           that.sandbox.emit("markable.setmarkups",data.markups);
           that.$el.find("#message").html("loaded ");
       });

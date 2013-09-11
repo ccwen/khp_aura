@@ -18,8 +18,6 @@ define(['underscore','backbone','aem',
         return $slot.find('tk[n='+vpos %4096+']');
     },
 
-          
-
     taghasattr:function($tk) {
       return (m && m.get("extra"));
     },
@@ -29,15 +27,16 @@ define(['underscore','backbone','aem',
       var $tk=this.$el.find(e.target), $slot=$tk.parent();
       var vpos=this.vposfromdomnode($tk[0]);
       var m=this.aemCollection.findWhere({vpos:vpos});
-      var extra=m.get("extra");
-      var field=Object.keys(extra)[0];
-      if (m&&extra) {
+      if (m&&m.get("extra")) {
+        var extra=m.get("extra");
+        var field=Object.keys(extra)[0];
         bootbox.prompt({
           title:'modify '+field+' for '+$tk.html()+' ,cancel to remove',value:extra[field],
           callback:function(result){
             if (result) {
               extra[field]=result;
-              m.set("extra",extra);         
+              m.set("extra",extra);       
+              that.updatedomnode($tk,m);  
             } else that.removeaem(m);
           }
         });
@@ -105,25 +104,32 @@ define(['underscore','backbone','aem',
       var vpos=m.get("vpos");
       var node=this.domnodefromvpos(vpos);
       var tag=node.attr("class");
+      if (m.get("fromdisk")) {
+        this.removedCollection.add({id:m.get("id")});
+      }
       node.removeClass();
       this.aemCollection.remove(m)
+    },
+    updatedomnode:function(node,model) {
+      var extra=model.get("extra");
+      var tag=model.get("tag");
+      for (var i in extra) {
+        node.attr('data-'+tag+'-'+i,extra[i]);
+      }
     },
     newaem:function(m) {
       var node=this.domnodefromvpos(m.get("vpos"));
       if (!node) return;
       var tag=m.get("tag");
       node.addClass(m.get("tag"));
-      var extra=m.get("extra");
-      for (var i in extra) {
-        node.attr('data-'+tag+'-'+i,extra[i]);
-      }
+      this.updatedomnode(node,m);
     },
     settag:function(tag,taginfo) {
       this.model.set("tag",tag);
       this.model.set("taginfo",taginfo);
     },
     getmarkups:function(callback) {
-      callback(this.aemCollection.toJSON());
+      callback(this.aemCollection.toJSON(),this.removedCollection.toJSON());
     },
     setmarkups:function(markups) {
       this.aemCollection.reset(markups);
@@ -133,6 +139,8 @@ define(['underscore','backbone','aem',
       this.aemCollection.on("remove",this.removeaem,this);
       this.aemCollection.on("add",this.newaem,this);
       this.aemCollection.on("reset",this.renderaem,this);
+
+      this.removedCollection=new Backbone.Collection();
     },
     initialize: function() {
       this.readonly=false;

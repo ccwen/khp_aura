@@ -1,4 +1,6 @@
-define(['underscore','text!./tagset.tmpl'], function(_,template) {
+define(['underscore','text!./tagset.tmpl','text!../config.json'],
+ function(_,template,config) {
+  config=JSON.parse(config);
   return {
     type: 'Backbone',
     events: {
@@ -33,7 +35,7 @@ define(['underscore','text!./tagset.tmpl'], function(_,template) {
     },
     loadtagset:function() {
       var that=this;
-      requirejs(['text!./tagset/'+this.options.tagset+'.json'],function(data) {
+      requirejs(['text!./tagset/'+config.role+'.json'],function(data) {
         var tagset=JSON.parse(data);
         that.model.set("tagset",tagset);
         that.$el.html(_.template(template,tagset));

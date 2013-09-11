@@ -1,0 +1,13 @@
+{
+	"tags":[
+		{"name":"insert", "data":"text" , "default":true,
+		  "style":"", "afterstyle":"color:green;content: attr(data-insert-text)"
+		  },
+		{"name":"delete", 
+		 "style":"text-decoration:line-through;color:silver"},
+		{"name":"modify", "data":"text" ,
+		 "style":"text-decoration:line-through;color:silver",
+		 "afterstyle":"color:green;content: attr(data-modify-text)"
+		}
+	]
+}

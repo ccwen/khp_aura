@@ -1,3 +1,5 @@
 {
-	"db":"jiangkangyur"
+	"db":"jiangkangyur",
+	"tagset":"sweeper",
+	"role":"fixer"
 }
