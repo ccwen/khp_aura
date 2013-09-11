@@ -27,7 +27,7 @@ pb:hover {
 tk.p:hover {background:red;color:yellow;}
 
 slot:hover , slot.hover {border-bottom:dotted;border-width:2px;cursor:pointer;} 
-tk:hover  {color:blue; cursor:pointer;} 
+tk:hover  {border-bottom:solid;border-color:brown;cursor:pointer;} 
 tk.hover {background:pink;}
 tk.played {background:yellow;}
 slot.selected {background:lightyellow;}

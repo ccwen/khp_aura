@@ -1,13 +1,14 @@
 {
 	"tags":[
-		{"name":"insert", "data":"text" , "default":true,
-		  "style":"", "afterstyle":"color:green;content: attr(data-insert-text)"
+		{"name":"insert", "data":"text" , 
+		  "afterstyle":"color:green;content: attr(data-insert-text)"
 		  },
 		{"name":"delete", 
 		 "style":"text-decoration:line-through;color:silver"},
-		{"name":"modify", "data":"text" ,
-		 "style":"text-decoration:line-through;color:silver",
-		 "afterstyle":"color:green;content: attr(data-modify-text)"
+		{"name":"modify", "data":"text" ,"default":true,
+		 "style":"color:silver;font-size:1px;",
+		 "afterstyle":"color:green;font-size:24px;content: attr(data-modify-text)"
 		}
-	]
+	],
+	"merge":["sweeper"]
 }

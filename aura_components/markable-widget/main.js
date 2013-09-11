@@ -48,6 +48,9 @@ define(['underscore','backbone','aem',
     settext:function(id,text) {
       if (id!=this.id) return;
       this.html(_.template(template,{text:text}));
+      this.aemCollection.reset();
+      this.removedCollection.reset();
+      this.slot2dom={};
     },
     setselectable:function() {
       this.readonly=false;
@@ -67,10 +70,13 @@ define(['underscore','backbone','aem',
     },
     toggletag:function(selected) {
       var vpos=this.vposfromdomnode(selected[0]);
-      var tag=this.model.get('tag');
-      var m=this.aemCollection.findWhere({tag:tag,vpos:vpos});
-      if (m) this.removeaem(m);
-      else this.addtag(selected);
+      var tag=this.model.get("tag");
+      var m=this.aemCollection.findWhere({vpos:vpos});
+      if (m&&m.get("tag")==tag) this.removeaem(m);
+      else {
+        if (m)this.removeaem(m);
+        this.addtag(selected);
+      }
     },
     addtag:function(selected) {
       if (!selected) return ;
@@ -105,7 +111,7 @@ define(['underscore','backbone','aem',
       var node=this.domnodefromvpos(vpos);
       var tag=node.attr("class");
       if (m.get("fromdisk")) {
-        this.removedCollection.add({id:m.get("id")});
+        this.removedCollection.add(m);
       }
       node.removeClass();
       this.aemCollection.remove(m)
@@ -132,7 +138,7 @@ define(['underscore','backbone','aem',
       callback(this.aemCollection.toJSON(),this.removedCollection.toJSON());
     },
     setmarkups:function(markups) {
-      this.aemCollection.reset(markups);
+      this.aemCollection.add(markups);
     },    
     createcollection:function() {
       this.aemCollection=new aem.AEMCollection();
