@@ -1,0 +1,9 @@
+{
+	"tags":[
+		{"name":"doubt", "data":"text" ,
+		  "style":"background:pink;border-radius:4px", "afterstyle":"content: '*'"
+		}
+		,{"name":"select","default":true
+		}
+	]
+}

@@ -1,7 +1,10 @@
 {
 	"tags":[
+		{"name":"source", "data":"text" ,
+		  "style":"background:green;border-radius:1px", "afterstyle":"content: '[' attr(data-source-text) ']' "
+		  },	
 		{"name":"doubt", "data":"text" ,
-		  "style":"background:pink;border-radius:4px", "afterstyle":"content: '*'"
+		  "style":"background:pink;border-radius:4px", "afterstyle":"content: '*' "
 		  },
 		{"name":"typo", "intoken":true,"default":true, 
 		 "style":"background:red;color:yellow;border-top-left-radius:50%;border-top-right-radius:50%"}

@@ -8,7 +8,10 @@
 		{"name":"modify", "data":"text" ,"default":true,
 		 "style":"color:silver;font-size:1px;",
 		 "afterstyle":"color:green;font-size:24px;content: attr(data-modify-text)"
-		}
+		},
+		{"name":"doubt2", "data":"text" ,
+		  "style":"background:orange;border-radius:4px", "afterstyle":"content: attr(data-doubt2-text)"
+		  }
 	],
 	"merge":["sweeper"]
 }
